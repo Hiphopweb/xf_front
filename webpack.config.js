@@ -3,6 +3,7 @@ var path = require('path')
 var webpack = require('webpack')
 var CompressionWebpackPlugin = require('compression-webpack-plugin') // gzip插件
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // 模块依赖分析插件
+var uglifyjs_webpack_plugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
@@ -75,22 +76,23 @@ if (env === 'production' || env === 'analyz') {
       threshold: 10240,
       minRatio: 0.8
     }),
-    new webpack.optimize.UglifyJsPlugin({
-        // 最紧凑的输出
-        beautify: false,
-        // 删除所有的注释
-        comments: false,
-        compress: {
-            // 在UglifyJs删除没有用到的代码时不输出警告
-            warnings: false,
-            // 删除所有的 `console` 语句
-            drop_console: false,
-            // 内嵌定义了但是只用到一次的变量
-            collapse_vars: true,
-            // 提取出出现多次但是没有定义成变量去引用的静态值
-            reduce_vars: true
-        }
-    }),
+    new uglifyjs_webpack_plugin(),
+    // new webpack.optimize.UglifyJsPlugin({
+    //     // 最紧凑的输出
+    //     beautify: false,
+    //     // 删除所有的注释
+    //     comments: false,
+    //     compress: {
+    //         // 在UglifyJs删除没有用到的代码时不输出警告
+    //         warnings: false,
+    //         // 删除所有的 `console` 语句
+    //         drop_console: false,
+    //         // 内嵌定义了但是只用到一次的变量
+    //         collapse_vars: true,
+    //         // 提取出出现多次但是没有定义成变量去引用的静态值
+    //         reduce_vars: true
+    //     }
+    // }),
   ]);
   if (env === 'analyz') {
     module.exports.plugins = (module.exports.plugins || []).concat([

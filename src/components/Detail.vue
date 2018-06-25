@@ -1,21 +1,22 @@
 <template>
 <div>
-    <el-collapse v-model="activeNames" @change="handleChange" >
+    <el-collapse v-model="activeNames">
         <el-collapse-item style="padding: 0px" :name="key.key" v-for="key in detailKey" :key="key.key">
             <template slot="title">
-                <img
+                <!-- <img
                     :src="imgOne"
                     alt=""
                     class="icon ll"
                     style="margin-left: 10px; border: none; border-radius: 50%"
-                >
+                > -->
+                <span style="margin-left: 25px;">{{'星期' + turnWeek[key.week]}}</span>
                 <span style="margin-left: 30px">{{key.key}}</span>
-                <span style="margin-right: 50px; float: right">{{'星期' + turnWeek[key.week]}}</span>
+                <span style="float:right;margin-right: 50px;font-size: 18px;">{{'¥' + Number(Math.abs(detailDic[key.key].dayCost)).toFixed(1) }}</span>
             </template>
             
-            <el-card shadow="hover" v-for="item in detailDic[key.key]" :key="item.txdate" style="display: block; height: 80px">
+            <el-card shadow="hover" v-for="item in detailDic[key.key].data" :key="item.txdate" style="display: block; height: 80px">
                 <img :src="picDic[item.dir]" alt="类型图标" style="width: 50px;float: left;margin: 0px 10px;">
-                <span style="float: right;margin-top: 7px;color: #ff0000;margin-right: 50px;">{{'¥' + Number(Math.abs(item.txamt)).toFixed(1) }}</span>
+                <span style="float: right;margin-top: 7px;color: #ff0000;margin-right: 50px;">{{'¥ ' + Number(Math.abs(item.txamt)).toFixed(1) }}</span>
                 <p>{{item.dir==='无'?'其他':item.dir}}</p>
                 <p style="font-size: 12px;color: #999;">{{item.shopname==='无'?'其他':item.shopname}}</p>
             </el-card>
@@ -67,9 +68,10 @@ export default {
             detailData: [],
             cost: '',
             detailDic: {},
-            detailKey: 　[],
+            detailKey: [],
         }
     },
+   
     mounted() {
         let _this = this
         _this.$http({
@@ -80,28 +82,34 @@ export default {
                 },
             })
             .then(function (res) {
+                console.log(res)
                 if (res.data.status === 0) {
                     // 数据整理 按照日期对数据进行分类
                     let orderBydate = {};
                     let orderByKey = [];
                     for (let item of res.data.data) {
-                        let theDay = dayjs(item.txdate).format('YYYY-MM-DD');
+                        let theDay = dayjs(item.txdate).format('YYYY-MM-DD');//将日期作为key值                       
                         if (theDay in orderBydate) {
-                            orderBydate[theDay].push(item);
+                            orderBydate[theDay].data.push(item);
+                            orderBydate[theDay].dayCost += Number(item.txamt);                            
                         } else {
                             orderByKey.push({
                                 key: theDay,
-                                week: dayjs(theDay).day().toString()
+                                week: dayjs(theDay).day().toString(),
                             });
-                            orderBydate[theDay] = [item];
+                            orderBydate[theDay] = {
+                                dayCost:Number(item.txamt),//将字符转化为数字
+                                data:[item]
+                            };
                         }
                     }
+
                     _this.detailDic = orderBydate;
                     _this.detailKey = orderByKey;
                     // 默认打开第一个元素
                     _this.activeNames = [orderByKey[0].key];
                     _this.detailData = res.data.data;
-                    _this.cost = res.data.cost;
+                    // _this.cost = res.data.cost;
                 } else {
                     _this.$message.error("获取失败");
                 }

@@ -21,18 +21,17 @@
             <span>消费流水</span>
     </div>
     <el-row>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
             <div class="grid-content bg-purple">
                 <p class="date">{{dayData.daily}}</p>
             </div>
-        </el-col>
-        <el-col :span="12">
+        </el-col> -->
+        <el-col :span="24">
           <div class="grid-content bg-purple-light right">
-                <p class="date" style="text-align: right">{{'本周支出 ¥' + Number(dayData.pay).toFixed(1)}}</p>
+                <p class="date">{{'本周支出 ¥' + Number(dayData.pay).toFixed(1)}}</p>
             </div>
         </el-col>
-        <el-col :span="12">
-            
+        <el-col :span="18">
             <div class="conPlace">
                 <div
                     class="place qq"
@@ -54,7 +53,7 @@
               </div>
              </div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="6">
             
             <div
                 class="content"
@@ -316,6 +315,7 @@ export default {
         }
 },
 created() {
+    //判断tab显示几个月
         let monthLen = Number(dayjs().month()) + 1;
         let resultMonth = [];
         for (let i = 0; i < monthLen; i++) {
@@ -699,12 +699,12 @@ created() {
     height: 50px;
     line-height: 50px;
     text-align: center;
-    padding-left: 95px;
 }
 
 .date {
     padding: 5px 20px;
     font-size: 14px;
+    text-align: right;
 }
 
 .conPlace {
