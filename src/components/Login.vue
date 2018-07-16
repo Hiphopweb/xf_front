@@ -224,6 +224,6 @@ export default {
 }
 
 .footer {
-  margin-top: 80px;
+  margin-top: 80%;
 }
 </style>
