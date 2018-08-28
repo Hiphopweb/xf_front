@@ -130,9 +130,6 @@
 
 
 
-
-
-
 <script>
 import dirx from './../assets/dirx.png'
 import dird from './../assets/dird.png'
@@ -532,9 +529,9 @@ export default {
       this.lineBar = echarts.init(document.getElementById('demo'))
       this.lineBar.setOption(this.getBarOption)
       // 对吃货种类进行处理 两类数组一一对应
-      let titleArr = []
-      let valueArr = []
-      let allData = this.monthData.toplist
+      let titleArr = [];
+      let valueArr = [];
+      let allData = this.monthData.toplist;
       // 柱状图依据消费sum进行前五排序
       let compare = function(x, y) {
         return y['sum'] - x['sum']
