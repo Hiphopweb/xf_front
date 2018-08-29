@@ -86,7 +86,7 @@ export default {
         }
       })
       .then(function(res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.status === 0) {
           // 数据整理 按照日期对数据进行分类
           let orderBydate = {}
@@ -108,6 +108,8 @@ export default {
                 data: [item]
               }
             }
+            console.log('1',orderBydate);
+            console.log('2',orderByKey);
           }
 
           _this.detailDic = orderBydate

@@ -1,5 +1,5 @@
 <template>
-    <div class="item-choose bg-full" style="background-image: url('/src/assets/third.jpg');height: 100%;">
+    <div class="item-choose bg-full" style="background-image: url('/static/dist/src/assets/third.jpg');height: 100%;">
         <div>
             <el-row>
                 <el-button type="primary" style="font-size: 20px;" plain @click="skip('recent')">查看消费账单

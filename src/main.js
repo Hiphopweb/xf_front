@@ -6,7 +6,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
-// import './assets/js/rem'
+
+// import mockdata from './mock/NewData' // Mock模拟数据
 
 Vue.use(ElementUI);
 Vue.use(VueAwesomeSwiper)

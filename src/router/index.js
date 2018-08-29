@@ -4,7 +4,7 @@ import Login from '../components/Login.vue'
 import Main from '../components/Main.vue'
 import Detail from '../components/Detail.vue'
 import notFound from '../components/notFound.vue'
-import Swiper from '../components/swiper/Swiper.vue'
+import Swiper from '../components/Swiper.vue'
 import Choose from '../components/Choose.vue'
 Vue.use(VueRouter)
 
