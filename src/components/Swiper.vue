@@ -2,6 +2,7 @@
   <div class="swiper">
     <div class="arrow">
       <img src="/static/dist/src/assets/arrow.png" alt="">
+      <!-- <img src="/src/assets/arrow.png" alt=""> -->
     </div>
     <swiper :options="swiperOption" ref="mySwiper">
       <!-- slides -->
@@ -11,7 +12,6 @@
           <img src="" alt="">
           <p class="textCenter">请上滑查看</p>
         </div>
-
       </swiper-slide>
 
       <swiper-slide class="bg-full" style="background-image: url('/static/dist/src/assets/second.jpg');font-size:18px">
@@ -24,15 +24,17 @@
         </div>
       </swiper-slide>
 
+      <!-- <swiper-slide class="bg-full" style="background-image: url('/src/assets/third.jpg');font-size:18px"> -->
       <swiper-slide class="bg-full" style="background-image: url('/static/dist/src/assets/third.jpg');font-size:18px">
         <div class="slide-detail">
           <p>{{restName}}得到你的青睐</p>
           <p style="display:inline-block">总共消费</p>
-          <span class="cost-num-x" style="font-size: 24px">{{restCost}}元</span>
+          <span class="cost-num-x" style="font-size: 24px">{{RestCost}}元</span>
           <p class="slide-tips" style="font-size: 16px">{{randomTipsOne}}</p>
         </div>
 
-        <div class="ovals">
+        <div class="talk-img-x">
+          <img src="/static/dist/src/assets/talk.png" alt="">
           <p>你去征服世界</p>
           <p>我只想征服你的胃和心</p>
         </div>
@@ -76,6 +78,11 @@
             <p style="display:inline-block">总共光顾</p>
             <span class="cost-num-x" style="font-size: 24px">{{milkCostTimes}}次</span>
           </div>
+          <div class="talk-img">
+            <img src="/static/dist/src/assets/talk.png" alt="">
+            <p>拿了我的东西</p>
+            <p>以后就是我的人了</p>
+          </div>
         </div>
 
       </swiper-slide>
@@ -94,9 +101,7 @@
         <!-- <swiper-slide class="flex bg-full" style="background-image: url('/src/assets/first.jpg')"> -->
         <div class="qr-code" style="font-size:18px">
           <p class="textCenter">扫描下方二维码生成你的学期账单</p>
-
           <img class="qr-code-img" src="/static/dist/src/assets/qrcode.jpg" alt="公众号二维码">
-
         </div>
       </swiper-slide>
 
@@ -121,7 +126,7 @@ export default {
     return {
       costTotal: 0,
       restName: '',
-      restCost: 0,
+      RestCost: 0,
       mostExpenseName: '',
       mostCost: 0,
       mostTimesName: '',
@@ -173,8 +178,10 @@ export default {
       })
         .then((res) => {
           let data = res.data;
+          console.log(res.data);
+
           //总消费
-          this.costTotal = data.cost;
+          this.costTotal = Number((data.cost).toFixed(2));
 
           let restCost = data.dirlist[0];
 
@@ -183,7 +190,7 @@ export default {
           Object.keys(restCost).forEach((key) => {
             restData.push(restCost[key]);
             let arr = restData.sort((a, b) => b - a);
-            this.restCost = arr[0];
+            this.RestCost = Number((arr[0]).toFixed(1));
             if (arr[0] == restCost[key]) {
               this.restName = key;
               switch (key) {
@@ -205,8 +212,8 @@ export default {
             }
           });
 
-
-          let topList = data.toplist;
+          let topList = [];
+          topList = data.toplist;
           let costArr = [];
           let timesArr = [];
           let shopArr = [];
@@ -215,46 +222,67 @@ export default {
             "综合经营部（商店）": 0,
             "勤工助学商店": 0,
             "二楼商店": 0,
+            "旭日院一楼商店": 0,
             "大学超市": 0,
-            "勤工助学商店": 0,
-
+            "商店": 0,
+            "东区超市": 0,
+            "东区生活服务中心": 0,
           }
+          // console.log("123");
+
           topList.forEach((item, index) => {
-            //花费最多的档口和消费次数最多的地方
-            let sum = Number((item.sum).toFixed(2))
-            costArr.push(sum);
-            let compareArr = costArr.sort((a, b) => b - a)
-            if (compareArr[0] == item.sum) {
-              this.mostCost = compareArr[0];
-              this.mostExpenseName = item.shopname
+            // console.log("1",item);
+            if ((item.shopname != '商店') && (item.shopname != '东区超市') && (item.shopname != '一楼商店') && (item.shopname != '综合经营部（商店）') && (item.shopname != '勤工助学商店') && (item.shopname != '大学超市') && (item.shopname != '二楼商店')) {
+              // 花费最多的档口和消费次数最多的地方
+              // console.log("过滤",item);
+              let sum = Number((item.sum).toFixed(2))
+              costArr.push(sum);
+              console.log(costArr);
+              let compareArr = costArr.sort((a, b) => b - a)
+              if (compareArr[0] == Number((item.sum).toFixed(2))) {
+                this.mostCost = compareArr[0];
+                this.mostExpenseName = item.shopname
+              }
+              //统计次数最多的消费地点
+              timesArr.push(item.time);
+              let cptimeArr = timesArr.sort((a, b) => b - a)
+              if (cptimeArr[0] == item.time) {
+                this.mostTimesName = item.shopname;
+                this.mostTimes = cptimeArr[0];
+              }
             }
+
             //统计次数最多的消费地点
-            timesArr.push(item.time);
-            let cptimeArr = timesArr.sort((a, b) => b - a)
-            if (cptimeArr[0] == item.time) {
-              this.mostTimesName = item.shopname;
-              this.mostTimes = cptimeArr[0];
-            }
-            //统计奶茶店的消费金额和次数
+            // if (item.shopname != '商店' && item.shopname != '东区超市' && item.shopname != '一楼商店' && item.shopname != '综合经营部（商店）' && item.shopname != '勤工助学商店' && item.shopname != '大学超市' && item.shopname != '二楼商店') {
+
+            // }
+            // 统计奶茶店的消费金额和次数
             if (item.shopname == "咪一咻" || item.shopname == "蜜雪冰城") {
               this.milkCost += Number((item.sum).toFixed(2))
               this.milkCostTimes += item.time
             }
             // 比较用户在哪家商店花销最多
             Object.keys(shopObj).forEach((key) => {
-              if (key == item.shopname) {
-                shopObj[key] = {
-                  time: item.time,
-                  cost: item.sum
+              if ((item.shopname != '旭日苑一楼商店') && (item.shopname != '二楼商店')) {
+                if (key == item.shopname) {
+                  let sum = Number((item.sum).toFixed(2))
+                  shopObj[key] = {
+                    time: item.time,
+                    cost: sum
+                  }
                 }
-              }
-              console.log("各个商店消费", shopObj);
-              shopArr.push(shopObj[key].time);
-              let arr = shopArr.sort((a, b) => b - a)
-              if (arr[0] == shopObj[key].time) {
-                this.shopMostName = key;
-                this.shopMostCost = shopObj[key].cost;
-                this.shopMostTime = arr[0];
+                // console.log("各个商店消费", shopObj);
+                shopArr.push(shopObj[key].time);
+                let arr = shopArr.sort((a, b) => b - a)
+                if (arr[0] == shopObj[key].time) {
+                  if (key == '商店') {
+                    this.shopMostName = '东区商店';
+                  } else {
+                    this.shopMostName = key;
+                  }
+                  this.shopMostCost = shopObj[key].cost;
+                  this.shopMostTime = arr[0];
+                }
               }
             })
 
@@ -284,6 +312,40 @@ export default {
 }
 </script>
 <style>
+.talk-img {
+    position: relative;
+    left: 10%;
+    padding-top: 35px;
+}
+.talk-img img {
+    height: 195px;
+    width: 240px;
+    position: absolute;
+    z-index: 1;
+}
+.talk-img p {
+    font-size: 16px;
+    position: relative;
+    left: 10%;
+    top: 26px;
+}
+.talk-img-x {
+    position: relative;
+    padding-top: 140px;
+    padding-left: 10px;
+}
+.talk-img-x img {
+    height: 195px;
+    width: 240px;
+    position: absolute;
+    z-index: 1;
+}
+.talk-img-x p {
+    font-size: 16px;
+    position: relative;
+    left: 10%;
+    top: 26px;
+}
 .qr-code-img {
     width: 200px;
     height: 200px;
@@ -294,24 +356,24 @@ export default {
     width: 100%;
     position: fixed;
     z-index: 9999;
-    bottom: 10%;
+    bottom: 5%;
     animation: move 1.5s infinite;
     text-align: center;
 }
 @keyframes move {
     from {
-        bottom: 10%;
+        bottom: 5%;
     }
     to {
-        bottom: 15%;
+        bottom: 10%;
     }
 }
 @-webkit-keyframes move /* Safari and Chrome */ {
     from {
-        bottom: 10%;
+        bottom: 5%;
     }
     to {
-        bottom: 15%;
+        bottom: 10%;
     }
 }
 .slide-bubble {
@@ -332,7 +394,7 @@ export default {
     top: 30%;
     font-weight: bold;
 }
-.ovals {
+/* .ovals {
     position: relative;
     left: 10%;
     top: 20%;
@@ -359,7 +421,7 @@ export default {
 .ovals:after {
     bottom: -33px;
     border-color: #fff transparent transparent;
-}
+} */
 .cost-num-x {
     display: inline-block;
     font-size: 24px;
