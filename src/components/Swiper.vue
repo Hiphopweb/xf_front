@@ -6,15 +6,21 @@
     </div>
     <swiper :options="swiperOption" ref="mySwiper">
       <!-- slides -->
-      <swiper-slide class="flex bg-full one" style="background-image: url('/static/dist/src/assets/third.jpg')">
-        <div class="center ">
-          <p class="textCenter">你的学期账单</p>
-          <img src="" alt="">
-          <p class="textCenter">请上滑查看</p>
+      <!-- <swiper-slide class="flex bg-full one" style="background-image: url('/static/dist/src/assets/first.jpg')"> -->
+      <swiper-slide>
+        <img src="/static/dist/src/assets/first.jpg" alt="" class="background">
+        <div class="vertical-center">
+          <div class="center" style="font-weight: normal;">
+            <p class="textCenter">你的学期账单</p>
+            <img src="" alt="">
+            <p class="textCenter">请上滑查看</p>
+          </div>
         </div>
       </swiper-slide>
 
-      <swiper-slide class="bg-full" style="background-image: url('/static/dist/src/assets/second.jpg');font-size:18px">
+      <!-- <swiper-slide class="bg-full" style="background-image: url('/static/dist/src/assets/second.jpg');font-size:18px"> -->
+      <swiper-slide>
+        <img src="/static/dist/src/assets/second.jpg" alt="" class="background">
         <div class="slide-sum">
           <p>时光总是偷偷流逝</p>
           <p>打开一卡通账单</p>
@@ -24,8 +30,9 @@
         </div>
       </swiper-slide>
 
-      <!-- <swiper-slide class="bg-full" style="background-image: url('/src/assets/third.jpg');font-size:18px"> -->
-      <swiper-slide class="bg-full" style="background-image: url('/static/dist/src/assets/third.jpg');font-size:18px">
+      <!-- <swiper-slide class="bg-full" style="background-image: url('/static/dist/src/assets/third.jpg');font-size:18px"> -->
+      <swiper-slide>
+        <img src="/static/dist/src/assets/third.jpg" alt="" class="background">
         <div class="slide-detail">
           <p>{{restName}}得到你的青睐</p>
           <p style="display:inline-block">总共消费</p>
@@ -43,7 +50,9 @@
 
       </swiper-slide>
 
-      <swiper-slide class="bg-full" style="background-image: url('/static/dist/src/assets/third.jpg');font-size:18px">
+      <!-- <swiper-slide class="bg-full" style="background-image: url('/static/dist/src/assets/third.jpg');font-size:18px"> -->
+      <swiper-slide>
+        <img src="/static/dist/src/assets/third.jpg" alt="" class="background">
         <div class="slide-detail">
           <p style="display:inline">你为{{mostExpenseName}}花费了</p>
           <span class="cost-num-x" style="font-size: 24px">{{mostCost}}元</span>
@@ -60,22 +69,24 @@
 
       </swiper-slide>
 
-      <swiper-slide class=" bg-full" style="background-image: url('/static/dist/src/assets/fourth.jpg');font-size:18px">
+      <!-- <swiper-slide class=" bg-full" style="background-image: url('/static/dist/src/assets/fourth.jpg');font-size:18px"> -->
+      <swiper-slide>
+        <img src="/static/dist/src/assets/fourth.jpg" alt="" class="background">
         <div class="slide-detail">
           <div>
-            <p style="display:inline-block">光顾{{shopMostName}}</p>
+            <p style="display:inline-block;padding-top: 16px;">光顾{{shopMostName}}</p>
             <span class="cost-num-x" style="font-size: 24px">{{shopMostTime}}次</span>
           </div>
           <div>
-            <p style="display:inline-block">总共消费</p>
+            <p style="display:inline-block;padding-top: 16px;">总共消费</p>
             <span class="cost-num-x" style="font-size: 24px">{{shopMostCost}}元</span>
           </div>
           <div>
-            <p style="display:inline-block">奶茶店总共消费</p>
+            <p style="display:inline-block;padding-top: 16px;">奶茶店总共消费</p>
             <span class="cost-num-x" style="font-size: 24px">{{milkCost}}元</span>
           </div>
           <div>
-            <p style="display:inline-block">总共光顾</p>
+            <p style="display:inline-block;padding-top: 16px;">总共光顾</p>
             <span class="cost-num-x" style="font-size: 24px">{{milkCostTimes}}次</span>
           </div>
           <div class="talk-img">
@@ -87,18 +98,24 @@
 
       </swiper-slide>
 
-      <swiper-slide class="flex bg-full" style="background-image: url('/static/dist/src/assets/first.jpg');">
-        <div class="center" style="font-size:18px">
-          <p class="textCenter">一卡通账单陪你度过了一学期的岁月</p>
-          <p class="textCenter">
-            <a style="color:#0000FF;text-decoration: none;" href="#">点击右上角分享</a>我的一卡通账单</p>
-          <p class="textCenter">这学期还是你来买单我记录</p>
+      <!-- <swiper-slide class="flex bg-full" style="background-image: url('/static/dist/src/assets/first.jpg');"> -->
+      <swiper-slide>
+        <img src="/static/dist/src/assets/first.jpg" alt="" class="background">
+        <div class="vertical-center">
+          <div class="center" style="font-size:18px">
+            <p class="textCenter">一卡通账单陪你度过了一学期的岁月</p>
+            <p class="textCenter">
+              <a style="color:#0000FF;text-decoration: none;" href="#">点击右上角分享</a>我的一卡通账单</p>
+            <p class="textCenter">这学期还是你来买单我记录</p>
+          </div>
         </div>
 
       </swiper-slide>
 
-      <swiper-slide class="flex bg-full" style="background-image: url('/static/dist/src/assets/first.jpg')">
-        <!-- <swiper-slide class="flex bg-full" style="background-image: url('/src/assets/first.jpg')"> -->
+      <!-- <swiper-slide class="flex bg-full" style="background-image: url('/static/dist/src/assets/first.jpg')"> -->
+      <!-- <swiper-slide class="flex bg-full" style="background-image: url('/src/assets/first.jpg')"> -->
+      <swiper-slide>
+        <img src="/static/dist/src/assets/first.jpg" alt="" class="background">
         <div class="qr-code" style="font-size:18px">
           <p class="textCenter">扫描下方二维码生成你的学期账单</p>
           <img class="qr-code-img" src="/static/dist/src/assets/qrcode.jpg" alt="公众号二维码">
@@ -315,7 +332,8 @@ export default {
 .talk-img {
     position: relative;
     left: 10%;
-    padding-top: 35px;
+    height: auto;
+    /* padding-top: 15px; */
 }
 .talk-img img {
     height: 195px;
@@ -331,8 +349,8 @@ export default {
 }
 .talk-img-x {
     position: relative;
-    padding-top: 140px;
-    padding-left: 10px;
+    left: 10%;
+    padding-top: 20%;
 }
 .talk-img-x img {
     height: 195px;
@@ -349,7 +367,7 @@ export default {
 .qr-code-img {
     width: 200px;
     height: 200px;
-    margin-top: 20px;
+    margin-top: 13px;
 }
 .arrow {
     display: block;
@@ -393,6 +411,7 @@ export default {
     color: black;
     top: 30%;
     font-weight: bold;
+    text-align: center;
 }
 /* .ovals {
     position: relative;
@@ -425,27 +444,34 @@ export default {
 .cost-num-x {
     display: inline-block;
     font-size: 24px;
-    color: #0000ff;
+    color: #03a9f4;
 }
 .slide-sum {
     margin-left: 28px;
-    margin-top: 182px;
+    margin-top: 35%;
+    font-size: 18px;
 }
 .slide-detail {
     margin-left: 28px;
-    margin-top: 182px;
+    margin-top: 32%;
+    font-size: 18px;
 }
 .slide-tips {
     margin-top: 0.5rem;
     font-weight: bold;
-    color: #000000cc;
+    position: relative;
+    font-style: italic;
+    color: #ffcc00;
+    top: 15%;
 }
 .slide-tips-y {
     position: relative;
+    font-style: italic;
+    color: #ffcc00;
     top: 15%;
-    left: 10%;
+    text-align: left;
+    left: 20px;
     font-weight: bold;
-    color: #000000cc;
 }
 .flex {
     display: flex;
@@ -479,13 +505,29 @@ export default {
 .firImg {
     /* background-size: cover; */
 }
-.bg-full {
+/* .bg-full {
     background-size: cover !important;
     -webkit-background-size: cover !important;
     -o-background-size: cover !important;
     background-position: center 0;
     background-repeat: no-repeat !important;
     height: auto;
+} */
+.background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: -100;
+}
+.swiper-wrapper {
+    height: 100%;
+}
+.vertical-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 p {
     padding-top: 18px;

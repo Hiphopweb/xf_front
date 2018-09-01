@@ -1,6 +1,8 @@
 <template>
-    <div class="item-choose bg-full" style="background-image: url('/static/dist/src/assets/third.jpg');height: 100%;">
-        <div>
+    <!-- <div class="item-choose bg-full" style="background-size:100% 100%;background-image: url('/static/dist/src/assets/first.jpg');height: 100%;"> -->
+    <div style="height:100%">
+        <img src="/static/dist/src/assets/first.jpg" alt="" class="background">
+        <div class="center-button">
             <el-row>
                 <el-button type="primary" style="font-size: 20px;" plain @click="skip('recent')">查看消费账单
                 </el-button> <br>
@@ -32,19 +34,31 @@ export default {
 
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .item-choose {
-    
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.bg-full {
-    background-size: cover !important;
-    -webkit-background-size: cover !important;
-    -o-background-size: cover !important;
-    background-position: center 0;
-    background-repeat: no-repeat !important;
-    height: auto;
+.center-button {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+// .bg-full {
+//     background-size: cover !important;
+//     -webkit-background-size: cover !important;
+//     -o-background-size: cover !important;
+//     background-position: 0 0;
+//     background-repeat: no-repeat !important;
+//     height: auto;
+// }
+.background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: -100;
 }
 </style>
