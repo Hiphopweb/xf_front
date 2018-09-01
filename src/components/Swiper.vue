@@ -36,7 +36,7 @@
         <div class="slide-detail">
           <p>{{restName}}得到你的青睐</p>
           <p style="display:inline-block">总共消费</p>
-          <span class="cost-num-x" style="font-size: 24px">{{RestCost}}元</span>
+          <span class="cost-num-x" style="font-size: 24px">{{rantCost}}元</span>
           <p class="slide-tips" style="font-size: 16px">{{randomTipsOne}}</p>
         </div>
 
@@ -143,7 +143,7 @@ export default {
     return {
       costTotal: 0,
       restName: '',
-      RestCost: 0,
+      rantCost: 0,
       mostExpenseName: '',
       mostCost: 0,
       mostTimesName: '',
@@ -206,9 +206,13 @@ export default {
           //比较出花费最多的餐厅
           Object.keys(restCost).forEach((key) => {
             restData.push(restCost[key]);
-            let arr = restData.sort((a, b) => b - a);
-            this.RestCost = Number((arr[0]).toFixed(1));
-            if (arr[0] == restCost[key]) {
+            // let arr = restData.sort((a, b) => b - a);
+            // this.rantCost = Number((arr[0]).toFixed(1));
+            this.rantCost = Number(arr.toFixed(1))
+            //将restData数组解构，给Math.max传入参数，返回最大数值
+            let arr = Math.max([...restData]);
+            // if (arr[0] == restCost[key]) {
+            if (arr == restCost[key]) {
               this.restName = key;
               switch (key) {
                 case 'dirx':
@@ -255,17 +259,24 @@ export default {
               let sum = Number((item.sum).toFixed(2))
               costArr.push(sum);
               console.log(costArr);
-              let compareArr = costArr.sort((a, b) => b - a)
-              if (compareArr[0] == Number((item.sum).toFixed(2))) {
+              // let compareArr = costArr.sort((a, b) => b - a)
+              let compareArr = Math.max([...costArr])
+              // if (compareArr[0] == Number((item.sum).toFixed(2))) {
+              if (compareArr == Number((item.sum).toFixed(2))) {
+                // this.mostCost = compareArr[0];
                 this.mostCost = compareArr[0];
                 this.mostExpenseName = item.shopname
               }
               //统计次数最多的消费地点
               timesArr.push(item.time);
-              let cptimeArr = timesArr.sort((a, b) => b - a)
-              if (cptimeArr[0] == item.time) {
+              // let cptimeArr = timesArr.sort((a, b) => b - a)
+              //将timesArr数组解构后的值作为参数传入Math.max（）函数，返回最大值
+              let crtimeArr = Math.max([...timesArr])
+              // if (cptimeArr[0] == item.time) {
+              if (cptimeArr == item.time) {
                 this.mostTimesName = item.shopname;
-                this.mostTimes = cptimeArr[0];
+                // this.mostTimes = cptimeArr[0];
+                this.mostTimes = cptimeArr;
               }
             }
 
@@ -290,15 +301,18 @@ export default {
                 }
                 // console.log("各个商店消费", shopObj);
                 shopArr.push(shopObj[key].time);
-                let arr = shopArr.sort((a, b) => b - a)
-                if (arr[0] == shopObj[key].time) {
+                // let arr = shopArr.sort((a, b) => b - a)
+                let arr = Math.max([...shopArr])
+                // if (arr[0] == shopObj[key].time) {
+                if (arr == shopObj[key].time) {
                   if (key == '商店') {
                     this.shopMostName = '东区商店';
                   } else {
                     this.shopMostName = key;
                   }
                   this.shopMostCost = shopObj[key].cost;
-                  this.shopMostTime = arr[0];
+                  // this.shopMostTime = arr[0];
+                  this.shopMostTime = arr;
                 }
               }
             })
