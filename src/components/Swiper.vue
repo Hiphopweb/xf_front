@@ -34,7 +34,8 @@
       <swiper-slide>
         <img src="/static/dist/src/assets/third.jpg" alt="" class="background">
         <div class="slide-detail">
-          <p>{{restName}}得到你的青睐</p>
+          <p>
+            <span style="color:#ff9800">{{restName}}</span> 得到你的青睐</p>
           <p style="display:inline-block">总共消费</p>
           <span class="cost-num-x" style="font-size: 24px">{{rantCost}}元</span>
           <p class="slide-tips" style="font-size: 16px">{{randomTipsOne}}</p>
@@ -54,10 +55,13 @@
       <swiper-slide>
         <img src="/static/dist/src/assets/third.jpg" alt="" class="background">
         <div class="slide-detail">
-          <p style="display:inline">你为{{mostExpenseName}}花费了</p>
+          <p style="display:inline">
+            你为
+            <span style="color:#ff9800">{{mostExpenseName}} </span>花费了 </p>
           <span class="cost-num-x" style="font-size: 24px">{{mostCost}}元</span>
           <p>唯美食与爱不可辜负</p>
-          <p>{{mostTimesName}}是你的最爱</p>
+          <p>
+            <span style="color:#ff9800">{{mostTimesName}} </span>是你的最爱</p>
           <p style="display:inline-block">总共光顾</p>
           <span class="cost-num-x" style="font-size: 24px">{{mostTimes}}次</span>
         </div>
@@ -74,7 +78,9 @@
         <img src="/static/dist/src/assets/fourth.jpg" alt="" class="background">
         <div class="slide-detail">
           <div>
-            <p style="display:inline-block;padding-top: 16px;">光顾{{shopMostName}}</p>
+            <p style="display:inline-block;padding-top: 16px;">光顾
+              <span style="color:#ff9800">{{shopMostName}} </span>
+            </p>
             <span class="cost-num-x" style="font-size: 24px">{{shopMostTime}}次</span>
           </div>
           <div>
@@ -82,7 +88,8 @@
             <span class="cost-num-x" style="font-size: 24px">{{shopMostCost}}元</span>
           </div>
           <div>
-            <p style="display:inline-block;padding-top: 16px;">奶茶店总共消费</p>
+            <p style="display:inline-block;padding-top: 16px;">
+              <span style="color:#ff9800">奶茶店</span> 总共消费</p>
             <span class="cost-num-x" style="font-size: 24px">{{milkCost}}元</span>
           </div>
           <div>
@@ -102,10 +109,10 @@
       <swiper-slide>
         <img src="/static/dist/src/assets/first.jpg" alt="" class="background">
         <div class="vertical-center">
-          <div class="center" style="font-size:18px">
+          <div class="center" style="padding-bottom: 40px;font-size: 18px;font-weight: normal;">
             <p class="textCenter">一卡通账单陪你度过了一学期的岁月</p>
             <p class="textCenter">
-              <a style="color:#0000FF;text-decoration: none;" href="#">点击右上角分享</a>我的一卡通账单</p>
+              <a style="color:#03a9f4;text-decoration: none;font-weight: bold;" href="#">点击右上角分享</a>我的一卡通账单</p>
             <p class="textCenter">这学期还是你来买单我记录</p>
           </div>
         </div>
@@ -169,7 +176,9 @@ export default {
         // speed: 1000,
         height: window.innerHeight,
         width: window.innerWidth,
-      }
+      },
+      newTopList: [],
+
     }
   },
   computed: {
@@ -182,144 +191,210 @@ export default {
     getInit() {
       let self = this;
       let restCost = {};
-      let begindate = dayjs().format('2018-03-01');
-      let enddate = dayjs().format('2018-08-30')
-      axios.get('/api/getNewData', {
-        params: {
-          begindate,
-          enddate,
-        },
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-      })
-        .then((res) => {
-          let data = res.data;
-          console.log(res.data);
+      // let begindate = dayjs().format('2018-03-01');
+      // let enddate = dayjs().format('2018-08-30')
+      let getThreeToFive = () => {
+        return axios.get('/api/getNewData', {
+          params: {
+            begindate: dayjs().format('2018-03-01'),
+            enddate: dayjs().format('2018-04-30')
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+        })
+      };
+      let getFiveToSix = () => {
+        return axios.get('/api/getNewData', {
+          params: {
+            begindate: dayjs().format('2018-05-01'),
+            enddate: dayjs().format('2018-06-30')
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+        })
+      };
+      let getSevToEight = () => {
+        return axios.get('/api/getNewData', {
+          params: {
+            begindate: dayjs().format('2018-07-01'),
+            enddate: dayjs().format('2018-08-31')
+          }
+        })
+      }
+      axios.all([getThreeToFive(), getFiveToSix(), getSevToEight()])
+        .then(axios.spread((res1, res2, res3) => {
+          let _this = this;
+          // console.log(res1);
+          // console.log(res2);
+          // console.log(res3);
+          let costSum = res1.data.cost + res2.data.cost + res3.data.cost;
+          this.costTotal = costSum.toFixed(1);
+          let restCostArr = [res1.data.dirlist[0], res2.data.dirlist[0], res3.data.dirlist[0]];
+          let restCostObj = {
+            dird: 0,
+            dirm: 0,
+            dirq: 0,
+            dirs: 0,
+            dirx: 0,
+          }
+          for (let item of restCostArr) {
+            Object.keys(item).forEach((key) => {
+              Object.keys(restCostObj).forEach((keyName) => {
+                if (key === keyName) {
+                  restCostObj[keyName] += item[key];
+                }
+                // console.log(restCostObj);
+                let restData = [];
+                //比较出花费最多的餐厅
+                Object.keys(restCostObj).forEach((keyValue) => {
+                  restData.push(restCostObj[keyValue]);
+                  //将restData数组解构，给Math.max传入参数，返回最大数值
+                  // console.log(restData);F
+                  let arr = Math.max(...restData);
+                  this.rantCost = Number(arr.toFixed(1))
+                  // if (arr[0] == restCost[key]) {
+                  if (arr == restCostObj[keyValue]) {
+                    // this.restName = keyName;
+                    switch (keyValue) {
+                      case 'dirx':
+                        this.restName = '旭日苑餐厅';
+                        break;
+                      case 'dird':
+                        this.restName = '东升苑餐厅';
+                        break;
+                      case 'dirm':
+                        this.restName = '美广餐厅';
+                        break;
+                      case 'dirs':
+                        this.restName = '商店';
+                        break;
+                      default:
+                        this.restName = '未统计'
+                    }
+                  }
+                });
+              })
+            })
+          }
 
-          //总消费
-          this.costTotal = Number((data.cost).toFixed(2));
-
-          let restCost = data.dirlist[0];
-
-          let restData = [];
-          //比较出花费最多的餐厅
-          Object.keys(restCost).forEach((key) => {
-            restData.push(restCost[key]);
-            // let arr = restData.sort((a, b) => b - a);
-            // this.rantCost = Number((arr[0]).toFixed(1));
-            this.rantCost = Number(arr.toFixed(1))
-            //将restData数组解构，给Math.max传入参数，返回最大数值
-            let arr = Math.max([...restData]);
-            // if (arr[0] == restCost[key]) {
-            if (arr == restCost[key]) {
-              this.restName = key;
-              switch (key) {
-                case 'dirx':
-                  this.restName = '旭日苑餐厅';
-                  break;
-                case 'dird':
-                  this.restName = '东升苑餐厅';
-                  break;
-                case 'dirm':
-                  this.restName = '美广餐厅';
-                  break;
-                case 'dirs':
-                  this.restName = '商店';
-                  break;
-                default:
-                  this.restName = '未统计'
-              }
-            }
-          });
-
-          let topList = [];
-          topList = data.toplist;
+          let topListArr = [...res1.data.toplist, ...res2.data.toplist, ...res3.data.toplist];
+          let milkArr = [];
+          let newObj = {}
+          let newArrList = [];
           let costArr = [];
           let timesArr = [];
-          let shopArr = [];
-          let milkArr = [];
+          let shopTime = [];
           let shopObj = {
-            "综合经营部（商店）": 0,
-            "勤工助学商店": 0,
-            "二楼商店": 0,
-            "旭日院一楼商店": 0,
-            "大学超市": 0,
-            "商店": 0,
-            "东区超市": 0,
-            "东区生活服务中心": 0,
+            "综合经营部（商店）": {
+              sum: 0,
+              time: 0
+            },
+            "勤工助学商店": {
+              sum: 0,
+              time: 0
+            },
+            // "二楼商店": 0,
+            // "旭日院一楼商店": 0,
+            "大学超市": {
+              sum: 0,
+              time: 0
+            },
+            "商店": {
+              sum: 0,
+              time: 0
+            },
+            "东区超市": {
+              sum: 0,
+              time: 0
+            },
+            "东区生活服务中心": {
+              sum: 0,
+              time: 0
+            },
           }
-          // console.log("123");
+          // let newTopList = [];
+          for (let stall of topListArr) {
+            let shopname = stall.shopname
+            if (shopname in newObj) {
+              newObj[shopname].sum += Number(stall.sum)
+              newObj[shopname].time += Number(stall.time)
+            } else {
+              newArrList.push({
+                key: shopname
+              })
+              newObj[shopname] = {
+                shopname: stall.shopname,
+                sum: stall.sum,
+                time: stall.time
+              }
+            }
+          }
 
-          topList.forEach((item, index) => {
-            // console.log("1",item);
-            if ((item.shopname != '商店') && (item.shopname != '东区超市') && (item.shopname != '一楼商店') && (item.shopname != '综合经营部（商店）') && (item.shopname != '勤工助学商店') && (item.shopname != '大学超市') && (item.shopname != '二楼商店')) {
-              // 花费最多的档口和消费次数最多的地方
-              // console.log("过滤",item);
-              let sum = Number((item.sum).toFixed(2))
-              costArr.push(sum);
-              console.log(costArr);
-              // let compareArr = costArr.sort((a, b) => b - a)
-              let compareArr = Math.max([...costArr])
-              // if (compareArr[0] == Number((item.sum).toFixed(2))) {
-              if (compareArr == Number((item.sum).toFixed(2))) {
-                // this.mostCost = compareArr[0];
-                this.mostCost = compareArr[0];
+          Object.keys(newObj).forEach((key) => {
+            _this.newTopList.push(newObj[key])
+          })
+          console.log("新数据结构", _this.newTopList);
+
+          for (let item of _this.newTopList) {
+            // console.log('标记', item)
+            //统计次数最多的消费地点
+            if (
+              item.shopname != '商店' &&
+              item.shopname != '东区超市' &&
+              item.shopname != '一楼商店' &&
+              item.shopname != '综合经营部（商店）' &&
+              item.shopname != '勤工助学商店' &&
+              item.shopname != '大学超市' &&
+              item.shopname != '二楼商店'
+            ) {
+              costArr.push(Number(item.sum.toFixed(2)))
+              let maxMath = Math.max(...costArr)
+              if (maxMath == Number(item.sum.toFixed(2))) {
+                this.mostCost = maxMath
                 this.mostExpenseName = item.shopname
               }
               //统计次数最多的消费地点
-              timesArr.push(item.time);
-              // let cptimeArr = timesArr.sort((a, b) => b - a)
+              timesArr.push(item.time)
               //将timesArr数组解构后的值作为参数传入Math.max（）函数，返回最大值
-              let crtimeArr = Math.max([...timesArr])
-              // if (cptimeArr[0] == item.time) {
-              if (cptimeArr == item.time) {
-                this.mostTimesName = item.shopname;
-                // this.mostTimes = cptimeArr[0];
-                this.mostTimes = cptimeArr;
+              let cptimeMax = Math.max(...timesArr)
+              if (cptimeMax == item.time) {
+                this.mostTimesName = item.shopname
+                this.mostTimes = cptimeMax
               }
             }
 
-            //统计次数最多的消费地点
-            // if (item.shopname != '商店' && item.shopname != '东区超市' && item.shopname != '一楼商店' && item.shopname != '综合经营部（商店）' && item.shopname != '勤工助学商店' && item.shopname != '大学超市' && item.shopname != '二楼商店') {
-
-            // }
             // 统计奶茶店的消费金额和次数
             if (item.shopname == "咪一咻" || item.shopname == "蜜雪冰城") {
               this.milkCost += Number((item.sum).toFixed(2))
               this.milkCostTimes += item.time
             }
+
+
+
             // 比较用户在哪家商店花销最多
-            Object.keys(shopObj).forEach((key) => {
-              if ((item.shopname != '旭日苑一楼商店') && (item.shopname != '二楼商店')) {
-                if (key == item.shopname) {
-                  let sum = Number((item.sum).toFixed(2))
-                  shopObj[key] = {
-                    time: item.time,
-                    cost: sum
-                  }
-                }
-                // console.log("各个商店消费", shopObj);
-                shopArr.push(shopObj[key].time);
-                // let arr = shopArr.sort((a, b) => b - a)
-                let arr = Math.max([...shopArr])
-                // if (arr[0] == shopObj[key].time) {
-                if (arr == shopObj[key].time) {
-                  if (key == '商店') {
-                    this.shopMostName = '东区商店';
-                  } else {
-                    this.shopMostName = key;
-                  }
-                  this.shopMostCost = shopObj[key].cost;
-                  // this.shopMostTime = arr[0];
-                  this.shopMostTime = arr;
-                }
+            Object.keys(shopObj).forEach(key => {
+              if (key == item.shopname) {
+                shopObj[key].sum = item.sum;
+                shopObj[key].time = item.time;
               }
             })
+          }
+          console.log(shopObj);
 
+          Object.keys(shopObj).forEach(val => {
+            shopTime.push(Number(shopObj[val].time));
+            let maxTime = Math.max(...shopTime);
+            console.log("1", shopTime);
+            console.log("2", maxTime);
+            if (maxTime == shopObj[val].time) {
+              this.shopMostName = val;
+              this.shopMostCost = (shopObj[val].sum).toFixed(1);
+              this.shopMostTime = shopObj[val].time;
+            }
           })
-
-        })
+        }))
     },
     randomTips() {
       //随机展示提示语
