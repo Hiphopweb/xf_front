@@ -1,6 +1,6 @@
 <template>
     <!-- <div class="item-choose bg-full" style="background-size:100% 100%;background-image: url('/static/dist/src/assets/first.jpg');height: 100%;"> -->
-    <div style="height:100%">
+    <div style="height:100%" class="item-choose">
         <img src="/static/dist/src/assets/first.jpg" alt="" class="background">
         <div class="center-button">
             <el-row>
@@ -14,14 +14,6 @@
 
 <script>
 export default {
-
-
-    data() {
-        return {
-        }
-    },
-
-
     methods: {
         skip(value) {
             if (value == 'recent') {
