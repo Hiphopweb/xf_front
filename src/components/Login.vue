@@ -32,7 +32,9 @@ import LOGO from '../assets/logo.jpg'
 export default {
   data() {
     return {
-      checkImg: '/static/img/chckcode.jpg',
+      // student:0,
+      // checkImg: '/static/img/'+student+'chckcode.jpg',
+      checkImg: '',
       logo: LOGO,
       ruleForm: {
         cardpwd: '',
@@ -59,6 +61,7 @@ export default {
     }
   },
   created() {
+    this.getCheckImg();
     // 验证是否需要一卡通密码
     var isPass = this.getCookie('password')
     // console.log('ispass的cookie是', isPass);
@@ -69,6 +72,7 @@ export default {
       this.isPass = false
     }
   },
+  
   methods: {
     // 刷新验证码
     getAgainCode() {
@@ -76,12 +80,26 @@ export default {
       window.location.replace('http://yktcx.xupt.org')
       // _this.checkImg = 'http://118.126.110.182:8002/static/img/chckcode.jpg?' + new Date().valueOf();
     },
+    getCheckImg(){
+      let _this = this;
+      let strCookie = document.cookie
+      let arrCookie = strCookie.split('; ')
+      var obj = {}
+      for (var i = 0; i < arrCookie.length; i++) {
+        var arr = arrCookie[i].split('=');
+        obj[arr[0]] = arr[1];
+      }
+      _this.checkImg = '/static/img/' + obj.student + 'chckcode.jpg'
+      console.log(_this.checkImg)
+    },
+    
     // 获取指定cookie值
     getCookie(cookieName) {
+      let _this = this;
       var strCookie = document.cookie
-      var arrCookie = strCookie.split(';')
+      var arrCookie = strCookie.split('; ')
+
       for (var i = 0; i < arrCookie.length; i++) {
-        var arr = arrCookie[i].split('=')
         if (cookieName == arr[0]) {
           return arr[1]
         }
