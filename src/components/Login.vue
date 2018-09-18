@@ -35,7 +35,9 @@ export default {
       // student:0,
       // checkImg: '/static/img/'+student+'chckcode.jpg',
       checkImg: '',
+      isPass:true,
       logo: LOGO,
+      cookieObj:{},
       ruleForm: {
         cardpwd: '',
         validate: ''
@@ -63,12 +65,14 @@ export default {
   created() {
     this.getCheckImg();
     // 验证是否需要一卡通密码
-    var isPass = this.getCookie('password')
+
+    var orPass = this.cookieObj['password'];
     // console.log('ispass的cookie是', isPass);
     // isPass = '1';
-    if (isPass === '1') {
-      this.isPass = true
-    } else if (isPass === '0') {
+    if (orPass === '1') {
+      // this.isPass = true
+      this.isPass = true;
+    } else if (orPass === '0') {
       this.isPass = false
     }
   },
@@ -80,6 +84,7 @@ export default {
       window.location.replace('http://yktcx.xupt.org')
       // _this.checkImg = 'http://118.126.110.182:8002/static/img/chckcode.jpg?' + new Date().valueOf();
     },
+
     getCheckImg(){
       let _this = this;
       let strCookie = document.cookie
@@ -89,23 +94,25 @@ export default {
         var arr = arrCookie[i].split('=');
         obj[arr[0]] = arr[1];
       }
-      _this.checkImg = '/static/img/' + obj.student + 'chckcode.jpg'
+      _this.checkImg = '/static/img/' + obj.student + 'chckcode.jpg';
+      _this.cookieObj = obj;
+
       console.log(_this.checkImg)
     },
-    
-    // 获取指定cookie值
-    getCookie(cookieName) {
-      let _this = this;
-      var strCookie = document.cookie
-      var arrCookie = strCookie.split('; ')
 
-      for (var i = 0; i < arrCookie.length; i++) {
-        if (cookieName == arr[0]) {
-          return arr[1]
-        }
-      }
-      return ''
-    },
+    // 获取指定cookie值
+    // getCookie(cookieName) {
+    //   let _this = this;
+    //   var strCookie = document.cookie
+    //   var arrCookie = strCookie.split('; ')
+
+    //   for (var i = 0; i < arrCookie.length; i++) {
+    //     if (cookieName == arr[0]) {
+    //       return arr[1]
+    //     }
+    //   }
+    //   return ''
+    // },
     onSubmit(formName) {
       // 表单验证
       this.$refs[formName].validate(valid => {
