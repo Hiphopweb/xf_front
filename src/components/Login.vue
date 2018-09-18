@@ -67,8 +67,8 @@ export default {
     // 验证是否需要一卡通密码
 
     var orPass = this.cookieObj['password'];
-    // console.log('ispass的cookie是', isPass);
-    // isPass = '1';
+    // var orPass = localStorage.getItem("password")
+    
     if (orPass === '1') {
       // this.isPass = true
       this.isPass = true;
@@ -96,6 +96,8 @@ export default {
       }
       _this.checkImg = '/static/img/' + obj.student + 'chckcode.jpg';
       _this.cookieObj = obj;
+
+      // localStorage.setItem("password",obj.password)
 
       console.log(_this.checkImg)
     },
